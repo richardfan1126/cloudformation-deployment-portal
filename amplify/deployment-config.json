@@ -1,0 +1,7 @@
+{
+    "templateUrl": "https://s3.amazonaws.com/aws-service-catalog-reference-architectures/iam/sc-s3-launchrole.yml",
+    "stackNamePrefix": "deployment-stack",
+    "accessCodePoolSize": 60,
+    "region": "us-east-1",
+    "templateParameters": {}
+}

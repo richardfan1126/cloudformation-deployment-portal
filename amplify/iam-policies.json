@@ -1,0 +1,450 @@
+{
+    "AccessCodeManagerPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "CloudFormationReadAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:ListStacks",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:ListStackResources",
+                    "cloudformation:GetTemplate"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "DynamoDBAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem"
+                ],
+                "Resource": "arn:aws:dynamodb:*:*:table/workshop-portal-stacks"
+            },
+            {
+                "Sid": "CloudWatchLogsAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ],
+                "Resource": "arn:aws:logs:*:*:*"
+            }
+        ]
+    },
+    "StackDeployerPolicy": {
+        "Description": "EXAMPLE policy for deploying the AWS Service Catalog S3 Launch Role template (https://s3.amazonaws.com/aws-service-catalog-reference-architectures/iam/sc-s3-launchrole.yml). YOU MUST CUSTOMIZE THIS based on your specific CloudFormation template requirements. See amplify/security-config.md for guidance.",
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "CloudFormationStackAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:CreateStack",
+                    "cloudformation:UpdateStack",
+                    "cloudformation:DeleteStack",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:DescribeStackEvents",
+                    "cloudformation:DescribeStackResources",
+                    "cloudformation:ListStackResources"
+                ],
+                "Resource": [
+                    "arn:aws:cloudformation:*:*:stack/deployment-stack-*/*",
+                    "arn:aws:cloudformation:*:*:stack/portal-stack-*/*"
+                ]
+            },
+            {
+                "Sid": "CloudFormationGlobalReadAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:ListStacks",
+                    "cloudformation:GetTemplate",
+                    "cloudformation:ValidateTemplate"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "S3TemplateAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject",
+                    "s3:GetObjectVersion"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::*/*"
+                ]
+            },
+            {
+                "Sid": "IAMRoleManagement",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:CreateRole",
+                    "iam:GetRole",
+                    "iam:AttachRolePolicy",
+                    "iam:PutRolePolicy",
+                    "iam:GetRolePolicy",
+                    "iam:ListRolePolicies",
+                    "iam:ListAttachedRolePolicies",
+                    "iam:PassRole",
+                    "iam:TagRole",
+                    "iam:UntagRole",
+                    "iam:UpdateAssumeRolePolicy"
+                ],
+                "Resource": [
+                    "arn:aws:iam::*:role/SC-*"
+                ]
+            },
+            {
+                "Sid": "IAMPolicyManagement",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:CreatePolicy",
+                    "iam:GetPolicy",
+                    "iam:GetPolicyVersion",
+                    "iam:ListPolicyVersions",
+                    "iam:DeletePolicy",
+                    "iam:DeletePolicyVersion",
+                    "iam:CreatePolicyVersion"
+                ],
+                "Resource": [
+                    "arn:aws:iam::*:policy/SC-*"
+                ]
+            },
+            {
+                "Sid": "DynamoDBAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem"
+                ],
+                "Resource": "arn:aws:dynamodb:*:*:table/workshop-portal-stacks"
+            },
+            {
+                "Sid": "EventBridgeRuleManagementAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "events:PutRule",
+                    "events:EnableRule",
+                    "events:DisableRule",
+                    "events:DescribeRule",
+                    "events:ListRules"
+                ],
+                "Resource": [
+                    "arn:aws:events:*:*:rule/*StackSyncScheduleRule*"
+                ]
+            },
+            {
+                "Sid": "EventBridgeListAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "events:ListRules"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "CloudWatchLogsAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ],
+                "Resource": "arn:aws:logs:*:*:*"
+            }
+        ]
+    },
+    "StackDeleterPolicy": {
+        "Description": "EXAMPLE policy for deleting stacks created by the AWS Service Catalog S3 Launch Role template (https://s3.amazonaws.com/aws-service-catalog-reference-architectures/iam/sc-s3-launchrole.yml). YOU MUST CUSTOMIZE THIS based on your specific CloudFormation template requirements. See amplify/security-config.md for guidance.",
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "CloudFormationStackDeletionAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:DeleteStack",
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:DescribeStackEvents",
+                    "cloudformation:DescribeStackResources",
+                    "cloudformation:ListStackResources"
+                ],
+                "Resource": [
+                    "arn:aws:cloudformation:*:*:stack/deployment-stack-*/*",
+                    "arn:aws:cloudformation:*:*:stack/portal-stack-*/*"
+                ]
+            },
+            {
+                "Sid": "CloudFormationListAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:ListStacks"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "IAMRoleDeletion",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:DeleteRole",
+                    "iam:GetRole",
+                    "iam:DetachRolePolicy",
+                    "iam:DeleteRolePolicy",
+                    "iam:ListRolePolicies",
+                    "iam:ListAttachedRolePolicies"
+                ],
+                "Resource": [
+                    "arn:aws:iam::*:role/SC-*"
+                ]
+            },
+            {
+                "Sid": "IAMPolicyDeletion",
+                "Effect": "Allow",
+                "Action": [
+                    "iam:DeletePolicy",
+                    "iam:GetPolicy",
+                    "iam:ListPolicyVersions",
+                    "iam:DeletePolicyVersion"
+                ],
+                "Resource": [
+                    "arn:aws:iam::*:policy/SC-*"
+                ]
+            },
+            {
+                "Sid": "DynamoDBAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem"
+                ],
+                "Resource": "arn:aws:dynamodb:*:*:table/workshop-portal-stacks"
+            },
+            {
+                "Sid": "CloudWatchLogsAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ],
+                "Resource": "arn:aws:logs:*:*:*"
+            }
+        ]
+    },
+    "StackOutputRetrieverPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "CloudFormationReadAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:ListStacks",
+                    "cloudformation:DescribeStackResources",
+                    "cloudformation:ListStackResources"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "DynamoDBAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem"
+                ],
+                "Resource": "arn:aws:dynamodb:*:*:table/workshop-portal-stacks"
+            },
+            {
+                "Sid": "CloudWatchLogsAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ],
+                "Resource": "arn:aws:logs:*:*:*"
+            }
+        ]
+    },
+    "AmplifyServiceRolePolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "AmplifyHostingAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:DeleteObject",
+                    "s3:ListBucket"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::amplify-*",
+                    "arn:aws:s3:::amplify-*/*"
+                ]
+            },
+            {
+                "Sid": "CloudFrontAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudfront:CreateInvalidation",
+                    "cloudfront:GetDistribution",
+                    "cloudfront:ListDistributions"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "LambdaInvokeAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "lambda:InvokeFunction"
+                ],
+                "Resource": [
+                    "arn:aws:lambda:*:*:function:*access-code-manager*",
+                    "arn:aws:lambda:*:*:function:*stack-deployer*",
+                    "arn:aws:lambda:*:*:function:*stack-output-retriever*"
+                ]
+            }
+        ]
+    },
+    "StackSyncPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "CloudFormationReadAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cloudformation:DescribeStacks",
+                    "cloudformation:ListStacks",
+                    "cloudformation:DescribeStackResources",
+                    "cloudformation:ListStackResources"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "DynamoDBAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem"
+                ],
+                "Resource": "arn:aws:dynamodb:*:*:table/workshop-portal-stacks"
+            },
+            {
+                "Sid": "EventBridgeRuleManagementAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "events:PutRule",
+                    "events:EnableRule",
+                    "events:DisableRule",
+                    "events:DescribeRule",
+                    "events:ListRules"
+                ],
+                "Resource": [
+                    "arn:aws:events:*:*:rule/*StackSyncScheduleRule*"
+                ]
+            },
+            {
+                "Sid": "EventBridgeListAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "events:ListRules"
+                ],
+                "Resource": "*"
+            },
+            {
+                "Sid": "CloudWatchLogsAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ],
+                "Resource": "arn:aws:logs:*:*:*"
+            }
+        ]
+    },
+    "AccessCodeInitializerPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "DynamoDBAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "dynamodb:GetItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem"
+                ],
+                "Resource": "arn:aws:dynamodb:*:*:table/workshop-portal-stacks"
+            },
+            {
+                "Sid": "CloudWatchLogsAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents"
+                ],
+                "Resource": "arn:aws:logs:*:*:*"
+            }
+        ]
+    },
+    "CognitoUserPoolPolicy": {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "CognitoUserPoolAccess",
+                "Effect": "Allow",
+                "Action": [
+                    "cognito-idp:AdminCreateUser",
+                    "cognito-idp:AdminDeleteUser",
+                    "cognito-idp:AdminUpdateUserAttributes",
+                    "cognito-idp:AdminGetUser",
+                    "cognito-idp:AdminListGroupsForUser",
+                    "cognito-idp:AdminAddUserToGroup",
+                    "cognito-idp:AdminRemoveUserFromGroup",
+                    "cognito-idp:ListUsers",
+                    "cognito-idp:ListGroups"
+                ],
+                "Resource": [
+                    "arn:aws:cognito-idp:*:*:userpool/*"
+                ]
+            }
+        ]
+    }
+}
